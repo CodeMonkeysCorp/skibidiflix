@@ -2,17 +2,15 @@
 Sistema Web de Venda de Ingressos e Reserva de Assentos para Cinema
 
 Integrantes:
+  André Schultz
+  Lucas Monich Nunes
 
-André Schultz
-
-Lucas Monich Nunes
-
-Disciplina: Programação Web – Baseada em Projetos
+Disciplina: Programação Web - Baseada em Projetos
 Professor: Luiz Carlos Camargo
 
 # 1. Domínio do Problema
 Contexto:
-Cinemas independentes precisam de sistemas confiáveis para a venda antecipada de ingressos online, garantindo que a experiência do usuário seja tranquila e rápida.
+  Cinemas independentes precisam de sistemas confiáveis para a venda antecipada de ingressos online, garantindo que a experiência do usuário seja tranquila e rápida.
 
 Problemas comuns:
 
@@ -29,17 +27,17 @@ O SkibidiFlix é uma aplicação Web para o gerenciamento de cartaz e venda de i
 
 O sistema permitirá:
 
-Cadastro e autenticação de usuários (Clientes e Admin).
+- Cadastro e autenticação de usuários (Clientes e Admin).
 
-Cadastro e gerenciamento do catálogo de Filmes e Sessões (Admin).
+- Cadastro e gerenciamento do catálogo de Filmes e Sessões (Admin).
 
-Visualização de filmes em cartaz e horários disponíveis.
+- Visualização de filmes em cartaz e horários disponíveis.
 
-Seleção visual de assentos na sala de cinema.
+- Seleção visual de assentos na sala de cinema.
 
-Transação de compra de ingressos (Garantindo o bloqueio do assento).
+- Transação de compra de ingressos (Garantindo o bloqueio do assento).
 
-Controle automático e bloqueio de assentos já vendidos/reservados.
+- Controle automático e bloqueio de assentos já vendidos/reservados.
 
 # 2. Escopo do Projeto
 Escopo Mínimo:
@@ -67,6 +65,7 @@ RF06 - O sistema deve impedir (por meio de um bloqueio após o primeiro usuário
 
 RF07 - O sistema deve permitir que o usuário visualize seu histórico de ingressos comprados.
 
+
 Requisitos Não Funcionais:
 
 RNF01 - Arquitetura baseada em MVC no backend e Componentes no frontend.
@@ -85,108 +84,99 @@ RNF07 - Tratamento de erros amigável no front-end em caso de falha na transaç�
 
 # 4. Arquitetura do Sistema
 Arquitetura Client-Server:
-Angular (Frontend SPA) → Spring Boot (Backend REST API) > MySQL (Banco de Dados)
+  Angular (Frontend) > Spring Boot (Backend REST API) > PostgreSQL (Banco de Dados)
 
 Padrão Arquitetural
-Model-View-Controller
-
-Backend organizado em camadas:
-
-Controller → Endpoints REST e mapeamento de rotas.
-
-Service → Regras de negócio e controle transacional (@Transactional).
-
-Repository → Acesso ao banco de dados (JPA).
-
-Model / Entity → Entidades mapeadas para o banco.
-
-DTOs → Transferência de dados segura entre Front e Back.
+  Model-View-Controller
 
 Frontend:
-React.js como SPA (Single Page Application).
+  Angular
+
+Backend:
+  Java, PostgreSQL
 
 # 5. Tecnologias Utilizadas
-Java e Spring Boot
+- Java e Spring Boot
 
-Spring Data JPA
+- Spring Data JPA
 
-Banco de Dados MySQL
+- Banco de Dados PostgreSQL
 
-Autenticação baseada em token (JWT)
+- Autenticação baseada em token (JWT)
 
-Angular (com Vite)
+- Angular (com Vite)
 
-Arquitetura baseada em componentes (ideal para renderizar a matriz de poltronas da sala de cinema).
+- Arquitetura baseada em componentes (ideal para renderizar a matriz de poltronas da sala de cinema).
 
 # 6. Transação Principal
 Compra de Ingresso e Reserva de Assento
 
 Processo:
 
-Cliente seleciona o assento e clica em comprar.
+- Cliente seleciona o assento e clica em comprar.
 
-Início da Transação no Banco.
+- Início da Transação no Banco.
 
-O sistema verifica se o assento escolhido para aquela sessão específica ainda está disponível.
+- O sistema verifica se o assento escolhido para aquela sessão específica ainda está disponível.
 
-Caso sim, insere o registro na tabela de ingresso e confirma a transação.
+- Caso sim, insere o registro na tabela de ingresso e confirma a transação.
 
-Caso o assento já tenha sido ocupado por outra thread/usuário milissegundos antes, ocorre um conflito de integridade e o sistema faz o Rollback automático, retornando um aviso ao usuário: "Assento indisponível".
+- Caso o assento já tenha sido ocupado por outra thread/usuário milissegundos antes, ocorre um conflito de integridade e o sistema faz o Rollback automático, retornando um aviso ao usuário: "Assento indisponível".
 
 # 7. Organização da Dupla
 Backend:
 
-Modelagem do banco relacional - Lucas
+- Modelagem do banco relacional -> Lucas
 
-Implementação da API REST (CRUD Filmes e Sessões) - Lucas
+- Implementação da API REST (CRUD Filmes e Sessões) -> Lucas
 
-Regras de negócio e Autenticação JWT - Lucas
+- Regras de negócio e Autenticação JWT -> Lucas
 
-Lógica de controle transacional da venda de ingressos - André
+- Lógica de controle transacional da venda de ingressos -> André
 
 Frontend:
 
-Desenvolvimento em Angular - André
+- Desenvolvimento em Angular -> André
 
-Telas de catálogo de filmes e detalhes da sessão - André
+- Telas de catálogo de filmes e detalhes da sessão -> André
 
-Desenvolvimento da interface interativa de seleção de poltronas - André
+- Desenvolvimento da interface interativa de seleção de poltronas -> André
 
-Consumo da API e tratamento de erros de concorrência na tela - Lucas
+- Consumo da API e tratamento de erros de concorrência na tela -> Lucas
 
 Ambos:
 
-Integração Front/Back.
+- Integração Front/Back.
 
-Testes da transação principal.
+- Testes da transação principal.
 
-Documentação e Apresentação.
+- Documentação e Apresentação.
 
 # 8. Planejamento por Entrega
 N1
 
-Estrutura inicial do projeto (Repositórios criados).
+- Estrutura inicial do projeto (Repositórios criados).
 
-Modelagem do Banco de Dados (DER).
+- Modelagem do Banco de Dados (DER).
 
-CRUD de Filme implementado (Backend e Frontend básico).
+- CRUD de Filme implementado (Backend e Frontend básico).
 
-Cadastro/Login de Usuários.
+- Cadastro/Login de Usuários.
 
 N2
 
-Implementação das Sessões de Cinema.
+- Implementação das Sessões de Cinema.
 
-Interface visual da Sala de Cinema (Matriz de Assentos).
+- Interface visual da Sala de Cinema (Matriz de Assentos).
 
-Implementação da Transação de Compra de Ingresso (Foco principal).
+- Implementação da Transação de Compra de Ingresso (Foco principal).
 
 N3
 
-Sistema completamente integrado e funcional.
+- Sistema completamente integrado e funcional.
 
-Tratamento de exceções (avisos de assento ocupado).
+- Tratamento de exceções (avisos de assento ocupado).
 
-Ajustes de UX/UI.
+- Ajustes de UX/UI.
 
-Deploy da aplicação.
+- Deploy da aplicação.
