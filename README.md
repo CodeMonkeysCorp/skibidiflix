@@ -2,8 +2,8 @@
 Sistema Web de Venda de Ingressos e Reserva de Assentos para Cinema
 
 Integrantes:
-  André Schultz
-  Lucas Monich Nunes
+- André Schultz
+- Lucas Monich Nunes
 
 Disciplina: Programação Web - Baseada em Projetos
 Professor: Luiz Carlos Camargo
