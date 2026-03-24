@@ -1,4 +1,4 @@
-# SkibidiFlix
+# SkibidiSeat
 Sistema Web de Venda de Ingressos e Reserva de Assentos para Cinema
 
 Integrantes:
@@ -24,7 +24,7 @@ Problemas comuns:
 - Compra dos ingressos e da comida em locais separados.
 
 Solução Proposta:
-O SkibidiFlix é uma aplicação Web para o gerenciamento de cartaz e venda de ingressos de cinema e itens de bomboniere.
+O SkibidiSeat é uma aplicação Web para o gerenciamento de cartaz e venda de ingressos de cinema e itens de bomboniere.
 
 O sistema permitirá:
 
