@@ -9,6 +9,8 @@ Disciplina: Programação Web - Baseada em Projetos
 
 Professor: Luiz Carlos Camargo
 
+Figma: https://www.figma.com/design/BaB5IM46Xnb3kXFlSvh35j/Skibidi?node-id=0-1&t=wJFVKsJgkgN0REJn-1
+
 # 1. Domínio do Problema
 Contexto:
   Cinemas independentes precisam de sistemas confiáveis para a venda antecipada de ingressos online, garantindo que a experiência do usuário seja tranquila e rápida.
