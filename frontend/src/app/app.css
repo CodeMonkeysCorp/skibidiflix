@@ -12,7 +12,6 @@
 
 .header__logo{
     display: flex;
-    justify-content: space-between;
 }
 
 .header__search{
@@ -83,4 +82,9 @@
 
 .footer{
 
+}
+
+.link{
+    text-decoration: none;
+    color: white;
 }
