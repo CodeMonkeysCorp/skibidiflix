@@ -6,6 +6,7 @@
     padding-top: 0.5vh;
     padding-bottom: 0.5vh;
     padding-left: 0.75vw;
+    padding-right: 2.75vw;
     gap: 10%;
 }
 
@@ -25,10 +26,15 @@
 
 .header__location{
     display: flex;
+    justify-content: space-between;
+    width: 10%;
+    border: 1px solid #fff;
+    border-radius: 10px;
+    padding: 0.3%;
 }
 
 .header__nav{
-
+    
 }
 
 .logo__icon{
@@ -46,6 +52,7 @@
 
 .search__text{
     margin: 0;
+    color: white;
 }
 
 .search__icon{
@@ -54,15 +61,19 @@
 }
 
 .location__text{
-
+    margin: 0;
+    color: white;
 }
 
 .location__icon{
-
+    width: 12%;
+    height: 12%;
 }
 
 .nav__account{
-
+    text-decoration: none;
+    color: white;
+    font-size: 20px;
 }
 
 .content{
