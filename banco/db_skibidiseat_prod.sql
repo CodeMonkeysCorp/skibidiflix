@@ -1,3 +1,5 @@
+begin;
+
 CREATE TABLE genero_filme (
     id_genero_filme SERIAL PRIMARY KEY,
     nm_genero_filme VARCHAR(50) NOT NULL
@@ -51,3 +53,11 @@ CREATE TABLE ingresso (
 
     UNIQUE (id_sessao, id_assento)
 );
+
+CREATE TABLE acesso (
+	id_acesso SERIAL PRIMARY KEY,
+	id_usuario INT NOT NULL REFERENCES usuario(id_usuario),
+    dt_acesso TIMESTAMPTZ DEFAULT CURRENT_TIMESTAMP
+)
+
+commit;
