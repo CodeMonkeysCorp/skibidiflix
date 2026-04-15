@@ -1,0 +1,63 @@
+/* Reset básico para o corpo */
+body {
+    background-color: #1a1a1a;
+    margin: 0;
+    padding: 0;
+    font-family: sans-serif;
+    color: white;
+}
+
+/* Container do conteúdo principal */
+.home {
+    padding-bottom: 50px;
+}
+
+/* Banner de Destaque */
+.featured {
+    width: 100%;
+    margin-bottom: 40px;
+}
+
+.featured__image {
+    width: 100%;
+    height: 450px;
+    object-fit: fill; /* Garante que a imagem preencha sem distorcer */
+    display: block;
+    background-color: #d9d9d9;
+}
+
+/* Seções de Catálogo */
+.catalog {
+    padding: 0 4%; /* Margem lateral para não encostar na borda */
+    margin-bottom: 40px;
+}
+
+.catalog__title {
+    font-weight: 300;
+    font-size: 1.5rem;
+    letter-spacing: 3px;
+    margin-bottom: 20px;
+    text-transform: uppercase;
+}
+
+/* Grid de Imagens (Posters) */
+.catalog__grid {
+    display: flex;
+    gap: 20px; /* Espaço entre os quadrados */
+    justify-content: flex-start;
+    overflow: hidden; /* Mantém as imagens alinhadas */
+}
+
+.catalog__poster {
+    width: calc(25% - 15px); /* Divide em 4 colunas iguais subtraindo o gap */
+    aspect-ratio: 2 / 3; /* Mantém a proporção de poster de filme */
+    background-color: #d9d9d9;
+    border-radius: 4px;
+    transition: transform 0.3s ease;
+    cursor: pointer;
+}
+
+/* Efeito simples de hover */
+.catalog__poster:hover {
+    transform: scale(1.05);
+}
