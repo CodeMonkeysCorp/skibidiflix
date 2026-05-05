@@ -1,5 +1,3 @@
-CREATE DATABASE db_skibisear_prod;
-
 CREATE TABLE genero_filme (
     id_genero_filme SERIAL PRIMARY KEY,
     nm_genero_filme VARCHAR(50) NOT NULL
@@ -59,3 +57,5 @@ CREATE TABLE acesso (
 	id_usuario INT NOT NULL REFERENCES usuario(id_usuario),
     dt_acesso TIMESTAMPTZ DEFAULT CURRENT_TIMESTAMP
 );
+
+ALTER TABLE usuario ADD COLUMN nm_email varchar(40);
