@@ -1,9 +1,31 @@
 package com.skibidiflix.backend.model;
 
+import jakarta.persistence.*;
+
+@Entity
+@Table(name = "usuario")
 public class User {
+
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name = "id_usuario")
     private Long id;
+
+    @Column(name = "nm_email")
     private String email;
+
+    @Column(name = "senha_hash")
     private String password;
 
-    // getters e setters
+    public Long getId() {
+        return id;
+    }
+
+    public String getEmail() {
+        return email;
+    }
+
+    public String getPassword() {
+        return password;
+    }
 }

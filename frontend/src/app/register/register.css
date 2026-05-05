@@ -1,0 +1,98 @@
+body {
+    background-color: #1a1a1a;
+    color: white;
+    font-family: sans-serif;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+    margin: 0;
+}
+
+.login {
+    width: 50vw;
+    text-align: center;
+}
+
+.login__title {
+    letter-spacing: 8px;
+    font-weight: 300;
+    margin-bottom: 40px;
+    font-size: 2rem;
+    font-family: "Julius Sans One", sans-serif;
+    font-style: normal;
+    color: white;
+}
+
+.login__user, 
+.login__password {
+    text-align: center;
+    margin-bottom: 20px;
+}
+
+.user__lable, 
+.password__lable {
+    display: block;
+    font-size: 14px;
+    letter-spacing: 2px;
+    margin-bottom: 8px;
+    padding-left: 13%;
+    text-transform: uppercase;
+    font-family: "Julius Sans One", sans-serif;
+    font-style: normal;
+    color: white;
+    text-align: left;
+}
+
+.user__input, 
+.password__input {
+    width: 75%;
+    padding: 12px;
+    background-color: #634040;
+    border: 1px solid #7a6060;
+    border-radius: 5px;
+    color: white;
+    box-sizing: border-box;
+    outline: none;
+    transition: border-color 0.2s;
+}
+
+.user__input:focus, 
+.password__input:focus {
+    border-color: #9e7a7a;
+}
+
+.login__sign-in-text {
+    font-size: 10px;
+    letter-spacing: 1px;
+    margin: 20px 0;
+    text-transform: uppercase;
+    font-family: "Julius Sans One", sans-serif;
+    font-style: normal;
+    color: white;
+}
+
+.login__sign-in-button {
+    color: white;
+    text-decoration: underline;
+    font-family: "Julius Sans One", sans-serif;
+    font-style: normal;
+}
+
+.login__button {
+    background-color: #634040;
+    color: white;
+    border: 1px solid #7a6060;
+    padding: 10px 50px;
+    border-radius: 5px;
+    cursor: pointer;
+    letter-spacing: 2px;
+    text-transform: uppercase;
+    transition: background 0.3s;
+    font-family: "Julius Sans One", sans-serif;
+    font-style: normal;
+}
+
+.login__button:hover {
+    background-color: #7a5050;
+}
