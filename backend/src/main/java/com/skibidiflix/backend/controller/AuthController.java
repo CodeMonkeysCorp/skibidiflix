@@ -24,7 +24,7 @@ public class AuthController {
         );
 
         if (success) {
-            return new LoginResponse(true, "Login OK");
+            return new LoginResponse(true, "Login OK!!");
         } else {
             return new LoginResponse(false, "Credenciais inválidas");
         }
