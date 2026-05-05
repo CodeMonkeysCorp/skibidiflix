@@ -1,6 +1,7 @@
 import { Component } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { FormsModule } from '@angular/forms';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-login',
@@ -10,25 +11,31 @@ import { FormsModule } from '@angular/forms';
   standalone: true,
 })
 export class LoginComponent {
-
   email: string = '';
   password: string = '';
 
-  constructor(private http: HttpClient) {}
+  constructor(private http: HttpClient, private router: Router) {}
 
   login() {
     // console.log(this.email, this.password);
-    this.http.post('http://localhost:8080/auth/login', {
-      email: this.email,
-      password: this.password
-    }, { responseType: 'text' })
-    .subscribe({
-      next: (res) => {
-        console.log(res);
-      },
-      error: (err) => {
-        console.error(err);
+    this.http.post<{ success: boolean; message: string }>(
+      'http://localhost:8080/auth/login',
+      {
+        email: this.email,
+        password: this.password
       }
-    });
+  )
+  .subscribe({
+    next: (res) => {
+      if (res.success) {
+        this.router.navigate(['/home']);
+      } else {
+        alert(res.message);
+      }
+    },
+    error: (err) => {
+      console.error(err);
+    }
+  });
   }
 }
