@@ -2,16 +2,16 @@
     <h1 class="login__title">LOGIN</h1>
         
     <div class="login__user">
-        <label class="user__lable">USUÁRIO</label>
-        <input class="user__input" type="text">
+        <label class="user__lable">E-MAIL</label>
+        <input class="user__input" type="text" [(ngModel)]="email" name="email">
     </div>
 
     <div class="login__password">
         <label class="password__lable">SENHA</label>
-        <input class="password__input" type="password">
+        <input class="password__input" type="password" [(ngModel)]="password">
     </div>
 
     <p class="login__sign-in-text">NÃO POSSUI UMA CONTA? <a class="login__sign-in-button" href="#">CADASTRE-SE.</a></p>
         
-    <a class="login__button" href="/profile">ENTRAR</a>
+    <button class="login__button" (click)="login()">ENTRAR</button>
 </div>

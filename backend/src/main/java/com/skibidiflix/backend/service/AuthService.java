@@ -1,3 +1,4 @@
+package com.skibidiflix.backend.service;
 import org.springframework.stereotype.Service;
 
 @Service

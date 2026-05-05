@@ -1,3 +1,5 @@
+CREATE DATABASE db_skibisear_prod;
+
 CREATE TABLE genero_filme (
     id_genero_filme SERIAL PRIMARY KEY,
     nm_genero_filme VARCHAR(50) NOT NULL
