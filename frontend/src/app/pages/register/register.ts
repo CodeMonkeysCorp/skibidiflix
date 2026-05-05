@@ -11,18 +11,26 @@ import { Router } from '@angular/router';
   standalone: true,
 })
 export class Register {
+  nome: string = '';
   email: string = '';
   password: string = '';
+  password_confirm: string = '';
 
   constructor(private http: HttpClient, private router: Router) {}
 
   register() {
     // console.log(this.email, this.password);
+    if (this.password !== this.password_confirm) {
+      alert("As senhas não coincidem!");
+      return;
+    }
+
     this.http.post<{ success: boolean; message: string }>(
       'http://localhost:8080/auth/register',
       {
         email: this.email,
-        password: this.password
+        password: this.password,
+        name: this.nome
       }
   )
   .subscribe({

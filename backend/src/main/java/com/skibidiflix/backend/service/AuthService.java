@@ -15,7 +15,6 @@ public class AuthService {
     }
 
     public boolean login(String email, String password) {
-        
         User user = userRepository.findByEmail(email);
 
         if (user == null) {
@@ -23,9 +22,23 @@ public class AuthService {
         }
 
         return user.getPassword().equals(password);
-        // if (email.equals("admin@email.com") && password.equals("123")) {
-        //     return true;
-        // }
-        // return false;
+    }
+
+    public boolean RequestRegister(String email, String password, String name) {
+        
+        User ExistingUser = userRepository.findByEmail(email);
+
+        if (ExistingUser != null) {
+            return false;
+        }
+
+        User newUser = new User();
+        newUser.setName(name); // Usando o email como nome temporariamente <-- Cala a boca vs code
+        newUser.setEmail(email);
+        newUser.setPassword(password);
+
+        userRepository.save(newUser);
+
+        return true;
     }
 }
