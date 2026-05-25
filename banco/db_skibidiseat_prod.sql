@@ -59,3 +59,18 @@ CREATE TABLE acesso (
 );
 
 ALTER TABLE usuario ADD COLUMN nm_email varchar(40);
+
+-- 25/05/2026 18:11 --
+
+ALTER TABLE filme ADD COLUMN nm_filme varchar(200);
+ALTER TABLE filme ADD COLUMN im_capa text;
+ALTER TABLE filme DROP COLUMN id_genero_filme;
+ALTER TABLE genero_filme DROP COLUMN nm_genero_filme;
+ALTER TABLE genero_filme ADD COLUMN id_filme INT REFERENCES filme(id_filme);
+
+CREATE TABLE genero (
+	id_genero SERIAL PRIMARY KEY,
+	nm_genero text
+)
+
+ALTER TABLE genero_filme ADD COLUMN id_genero INT REFERENCES genero(id_genero);
