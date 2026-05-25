@@ -78,4 +78,6 @@ ALTER TABLE genero_filme ADD COLUMN id_genero INT REFERENCES genero(id_genero);
 INSERT INTO filme(nm_filme,im_capa) VALUES 
 ('Dragon Ball Z Super: Super Dragon Ball Ultra X Hyper Mega Super Hero Z Super Z','Goku.png'),
 ('Homem Aranha 12: De Volta a Fronteira do Além do Aranhaverso Inverso 3 Parte 5: Uma Nova Volta ao Lar','SpiderMan.png'),
-('Batman: The Batman: Something in the Way','Batman.png')
+('Batman: The Batman: Something in the Way','Batman.png'),
+('Transformers: O Último Primeiro Recomeço da Extinção Final','Transformers.png'),
+('Velozes & Furiosos: O Retorno da Família para Salvar a Família','Familia.png');
