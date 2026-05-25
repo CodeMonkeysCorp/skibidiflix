@@ -36,6 +36,8 @@
 
 .header__nav{
     justify-content: space-between;
+    gap: 20px;
+    display: flex;
 }
 
 .logo__icon{
@@ -77,6 +79,10 @@
     text-decoration: none;
     color: white;
     font-size: 20px;
+    gap: 20px;
+    display: flex;
+    flex-direction: row;
+    white-space: nowrap;
 }
 
 .content{
