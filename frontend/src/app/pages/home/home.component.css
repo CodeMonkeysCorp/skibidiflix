@@ -24,6 +24,7 @@ body {
     object-fit: fill; /* Garante que a imagem preencha sem distorcer */
     display: block;
     background-color: #d9d9d9;
+    cursor: pointer;
 }
 
 /* Seções de Catálogo */

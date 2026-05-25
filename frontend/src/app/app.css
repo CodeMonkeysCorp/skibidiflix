@@ -12,6 +12,8 @@
 
 .header__logo{
     display: flex;
+    max-height: 40px;
+    cursor: pointer;
 }
 
 .header__search{
@@ -33,21 +35,22 @@
 }
 
 .header__nav{
-    
+    justify-content: space-between;
 }
 
 .logo__icon{
-    width: 22%;
-    min-width: 60px;
-    min-height: 60px;
+    width: 10%;
+    min-width: 20px;
+    min-height: 20px;
 }
 
 .logo__title{
     width: 70%;
     font-family: "Julius Sans One", sans-serif;
     font-weight: 400;
+    font-size: 18px;
     font-style: normal;
-    cursor: pointer;
+    justify-self: center;
 }
 
 .search__text{
@@ -70,7 +73,7 @@
     height: 12%;
 }
 
-.nav__account{
+.nav__item{
     text-decoration: none;
     color: white;
     font-size: 20px;
@@ -89,4 +92,5 @@
 .link{
     text-decoration: none;
     color: white;
+    max-height: 38px;
 }
