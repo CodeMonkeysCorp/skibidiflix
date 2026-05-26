@@ -82,3 +82,25 @@ INSERT INTO filme(nm_filme,im_path) VALUES
 ('Batman: The Batman: Something in the Way','Batman.png'),
 ('Transformers: O Último Primeiro Recomeço da Extinção Final','Transformers.png'),
 ('Velozes & Furiosos: O Retorno da Família para Salvar a Família','Familia.png');
+
+ALTER TABLE filme alter COLUMN ds_filme TYPE TEXT;
+
+UPDATE filme
+SET ds_filme = 'Após desbloquear uma transformação tão poderosa que cientistas consideram fisicamente impossível de ser animada quadro a quadro, Goku precisa enfrentar uma entidade ancestral capaz de destruir todos os universos conhecidos, desconhecidos e também alguns recém-criados apenas para este filme. Entre batalhas que duram semanas inteiras e diálogos sobre amizade, honra e superação gritados a volumes ensurdecedores, os Guerreiros Z precisarão ultrapassar seus próprios limites mais uma vez, agora em uma aventura ainda mais super, ultra e hiper.'
+WHERE id_filme = 1;
+
+UPDATE filme
+SET ds_filme = 'Quando uma falha multiversal faz portais começarem a surgir entre dimensões paralelas alternativas inversas, Peter Parker é lançado em sua missão mais pessoal, emocional e contratualmente obrigatória até agora. Ao lado de dezenas de versões praticamente idênticas do Homem-Aranha, ele precisará atravessar fronteiras do Aranhaverso que talvez jamais devessem ter sido atravessadas, enquanto tenta finalmente descobrir o verdadeiro significado de voltar para casa pela décima segunda vez.'
+WHERE id_filme = 2;
+
+UPDATE filme
+SET ds_filme = 'Nas ruas frias e constantemente molhadas de Gotham City, Bruce Wayne enfrenta sua investigação mais sombria até hoje. Assombrado pelo passado, pelo presente e pela trilha sonora melancólica tocando sem parar em sua cabeça, Batman mergulha em um caso brutal que o forçará a confrontar não apenas os criminosos da cidade, mas também sua própria incapacidade de conversar normalmente com qualquer ser humano. Uma experiência intensa, silenciosa e artisticamente deprimente.'
+WHERE id_filme = 3;
+
+UPDATE filme
+SET ds_filme = 'Quando uma antiga ameaça cibernética ressurge para provocar o último primeiro recomeço da extinção final definitiva da humanidade, Optimus Prime e os Autobots precisam retornar à Terra para mais uma batalha colossal repleta de destruição urbana, discursos dramáticos e explosões suficientemente grandes para serem vistas do espaço. Entre alianças inesperadas, traições inevitáveis e robôs girando violentamente em câmera lenta, o destino do planeta estará novamente nas mãos de máquinas gigantes extremamente barulhentas.'
+WHERE id_filme = 4;
+
+UPDATE filme
+SET ds_filme = 'Após uma ameaça misteriosa colocar toda a família em risco, Dom Toretto é forçado a reunir sua família para salvar a família antes que a família seja destruída por inimigos que não entendem o verdadeiro poder da família. Em uma corrida emocionante através de vários países convenientemente fechados para gravação, explosões impossíveis e carros desafiando todas as leis conhecidas da física, Dom descobrirá que, no fim das contas, nada é mais importante do que a família. Especialmente quando a família precisa proteger a família usando o poder da própria família.'
+WHERE id_filme = 5;
