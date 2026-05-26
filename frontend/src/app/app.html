@@ -1,7 +1,7 @@
 <header class="header">
   <div class="header__logo">
     <img class="logo__icon" src="/images/logo.png" alt="SkibidiFlix logo">
-    <a class="link" href="/home"><h1 class="logo__title">SkibidiSeat</h1></a>
+    <a class="link" [routerLink]="['/home']"><h1 class="logo__title">SkibidiSeat</h1></a>
   </div>
   <div class="header__search">
     <p class="search__text">Buscar</p>
@@ -12,9 +12,9 @@
     <img class="location__icon" src="/images/pin.png" alt="Pin de localização">
   </div>
   <nav class="header__nav">
-    <a class="nav__item" href="/my-orders">Meus Pedidos</a>
-    <a class="nav__item" href="/cart">Carrinho</a>
-    <a class="nav__item" href="/login">Conta</a>
+    <a class="nav__item" [routerLink]="['/my-orders']">Meus Pedidos</a>
+    <a class="nav__item" [routerLink]="['/cart']">Carrinho</a>
+    <a class="nav__item" [routerLink]="['/login']">Conta</a>
   </nav>
 </header>
 
