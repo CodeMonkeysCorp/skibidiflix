@@ -1,31 +1,46 @@
-    <section class="featured">
+<section
+  class="featured"
+  *ngIf="featuredMovie$ | async as featuredMovie">
+
+    <a
+      [routerLink]="['/filme']"
+      [queryParams]="{ id: featuredMovie.id_filme }">
+
         <div class="featured__container">
-            <img src="/images/banners/{{ (featuredMovie$ | async)?.im_path }}" alt="Batman" class="featured__image">
-        </div>
-    </section>
 
-    <section class="catalog">
-        <h2 class="catalog__title">EM ALTA</h2>
-        <div class="catalog__grid">
-            <div *ngFor="let movie of (movies$ | async);">
-                <a [routerLink]="['/filme']" [queryParams]="{ id: movie.id_filme }">
-                    <div class="poster__wrapper">
-                        <img [src]="'/images/capas/' + movie.im_path" alt="{{ movie.nm_filme }}" class="catalog__poster">
-                    </div>
-                </a>
-            </div>
-        </div>
-    </section>
+            <img
+              [src]="'/images/banners/' + featuredMovie.im_path"
+              [alt]="featuredMovie.nm_filme"
+              class="featured__image">
 
-    <section class="catalog">
-        <h2 class="catalog__title">EM BREVE</h2>
-        <div class="catalog__grid">
-            <div *ngFor="let movie of (movies$ | async);">
-                <a href="/filme">
-                    <div class="poster__wrapper">
-                        <img [src]="'/images/capas/' + movie.im_path" alt="{{ movie.nm_filme }}" class="catalog__poster">
-                    </div>
-                </a>
-            </div>
         </div>
-    </section>
+
+    </a>
+
+</section>
+
+<section class="catalog">
+    <h2 class="catalog__title">EM ALTA</h2>
+    <div class="catalog__grid">
+        <div *ngFor="let movie of (movies$ | async);">
+            <a [routerLink]="['/filme']" [queryParams]="{ id: movie.id_filme }">
+                <div class="poster__wrapper">
+                    <img [src]="'/images/capas/' + movie.im_path" alt="{{ movie.nm_filme }}" class="catalog__poster">
+                </div>
+            </a>
+        </div>
+    </div>
+</section>
+
+<section class="catalog">
+    <h2 class="catalog__title">EM BREVE</h2>
+    <div class="catalog__grid">
+        <div *ngFor="let movie of (movies$ | async);">
+            <a href="/filme">
+                <div class="poster__wrapper">
+                    <img [src]="'/images/capas/' + movie.im_path" alt="{{ movie.nm_filme }}" class="catalog__poster">
+                </div>
+            </a>
+        </div>
+    </div>
+</section>
