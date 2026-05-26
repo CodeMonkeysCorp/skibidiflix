@@ -1,16 +1,15 @@
     <section class="featured">
         <div class="featured__container">
-            <img src="/images/banners/Batman.png" alt="Batman" class="featured__image">
+            <img src="/images/banners/{{ (featuredMovie$ | async)?.im_path }}" alt="Batman" class="featured__image">
         </div>
     </section>
 
     <section class="catalog">
         <h2 class="catalog__title">EM ALTA</h2>
         <div class="catalog__grid">
-            <img src="/images/capas/Dune3.png" alt="Dune" class="catalog__poster">
-            <img src="/images/capas/Goku.png" alt="Goku" class="catalog__poster">
-            <img src="/images/capas/SpiderMan.png" alt="Spider-Man" class="catalog__poster">
-            <img src="/images/capas/Dune3.png" alt="Dune" class="catalog__poster">
+            <div *ngFor="let movie of (movies$ | async);">
+                <img [src]="'/images/capas/' + movie.im_path" alt="{{ movie.nm_filme }}" class="catalog__poster">
+            </div>
         </div>
     </section>
 

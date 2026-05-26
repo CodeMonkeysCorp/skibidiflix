@@ -14,7 +14,7 @@ body {
 
 /* Banner de Destaque */
 .featured {
-    width: 100%;
+    width: 100vw;
     margin-bottom: 40px;
 }
 
@@ -39,6 +39,7 @@ body {
     letter-spacing: 3px;
     margin-bottom: 20px;
     text-transform: uppercase;
+    color: #d9d9d9;
 }
 
 /* Grid de Imagens (Posters) */
@@ -50,12 +51,10 @@ body {
 }
 
 .catalog__poster {
-    width: calc(25% - 15px); /* Divide em 4 colunas iguais subtraindo o gap */
-    aspect-ratio: 2 / 3; /* Mantém a proporção de poster de filme */
-    background-color: #d9d9d9;
-    border-radius: 4px;
-    transition: transform 0.3s ease;
-    cursor: pointer;
+  width: 180px;        /* ou o tamanho que quiser */
+  height: 270px;       /* mantém proporção tipo pôster */
+  object-fit: cover;   /* corta sem distorcer */
+  border-radius: 8px;  /* opcional */
 }
 
 /* Efeito simples de hover */

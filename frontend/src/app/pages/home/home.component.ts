@@ -1,23 +1,40 @@
 import { Component } from '@angular/core';
+import { CommonModule } from '@angular/common';
+
+import { Observable } from 'rxjs';
+import { map } from 'rxjs/operators';
+
 import { MovieService } from '../../services/movie.service';
 import { Movie } from '../../interfaces/movie';
 
 @Component({
   selector: 'app-home',
-  imports: [],
+  standalone: true,
+  imports: [CommonModule],
   templateUrl: './home.component.html',
-  styleUrl: './home.component.css'
+  styleUrls: ['./home.component.css']
 })
 export class HomeComponent {
-  movies: Movie[] = [];
 
-  constructor(private movieService: MovieService) {}
+  movies$: Observable<Movie[]>;
+  featuredMovie$: Observable<Movie>;
 
-  ngOnInit(): void {
+  constructor(private movieService: MovieService) {
 
-    this.movieService.getMovies().subscribe(data => {
-      this.movies = data;
-    });
+    this.movies$ = this.movieService.getMovies();
+
+    this.featuredMovie$ = this.movieService.getMovies().pipe(
+
+      map(movies => {
+
+        const randomIndex = Math.floor(Math.random() * movies.length);
+
+        return movies[randomIndex];
+
+      })
+
+    );
 
   }
+
 }

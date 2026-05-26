@@ -23,4 +23,37 @@ public class Movie {
 
     @Column(name = "im_path") 
     private String im_path;
+
+    public Long getId_filme() {
+        return id_filme;
+    }
+
+    public String getNm_filme() {
+        return nm_filme;
+    }
+
+    public String getDs_filme() {
+        return ds_filme;
+    }
+
+    public String getIm_path() {
+        return im_path;
+    }
+
+    public void setId_filme(Long id_filme) {
+        this.id_filme = id_filme;
+    }
+
+    public void setNm_filme(String nm_filme) {
+        this.nm_filme = nm_filme;
+    }
+
+    public void setDs_filme(String ds_filme) {
+        this.ds_filme = ds_filme;
+    }
+
+    public void setIm_path(String im_path) {
+        this.im_path = im_path;
+    }
+
 }
