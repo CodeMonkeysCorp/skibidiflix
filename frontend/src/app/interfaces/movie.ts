@@ -3,4 +3,6 @@ export interface Movie {
   nm_filme: string;
   im_path: string;
   ds_filme: string;
+  classificacao: number;
+  duracao: number;
 }

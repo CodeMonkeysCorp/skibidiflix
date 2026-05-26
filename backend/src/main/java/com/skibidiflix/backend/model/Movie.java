@@ -24,6 +24,12 @@ public class Movie {
     @Column(name = "im_path") 
     private String im_path;
 
+    @Column(name = "classificacao")
+    private Integer classificacao;
+
+    @Column(name = "duracao")
+    private Integer duracao;
+
     public Long getId_filme() {
         return id_filme;
     }
@@ -40,6 +46,14 @@ public class Movie {
         return im_path;
     }
 
+    public Integer getClassificacao() {
+        return classificacao;
+    }
+
+    public Integer getDuracao() {
+        return duracao;
+    }
+
     public void setId_filme(Long id_filme) {
         this.id_filme = id_filme;
     }
@@ -54,6 +68,14 @@ public class Movie {
 
     public void setIm_path(String im_path) {
         this.im_path = im_path;
+    }
+
+    public void setClassificacao(Integer classificacao) {
+        this.classificacao = classificacao;
+    }
+
+    public void setDuracao(Integer duracao) {
+        this.duracao = duracao;
     }
 
 }

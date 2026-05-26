@@ -72,7 +72,7 @@ ALTER TABLE genero_filme ADD COLUMN id_filme INT REFERENCES filme(id_filme);
 CREATE TABLE genero (
 	id_genero SERIAL PRIMARY KEY,
 	nm_genero text
-)
+);
 
 ALTER TABLE genero_filme ADD COLUMN id_genero INT REFERENCES genero(id_genero);
 

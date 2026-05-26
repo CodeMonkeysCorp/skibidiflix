@@ -1,17 +1,113 @@
-<div *ngIf="movie$ | async as movie">
+<div *ngIf="movie$ | async as movie" class="filme-container">
+  
+  <!-- Banner de fundo desfocado -->
+  <div class="banner-background" 
+    [style.backgroundImage]="'url(/images/banners/' + movie.im_path + ')'">
+  </div>
 
-    <h1>{{ movie.nm_filme }}</h1>
+  <!-- Conteúdo principal -->
+  <div class="filme-content">
+    
+    <!-- Seção superior com poster e info -->
+    <div class="movie-header">
+      
+      <!-- Poster esquerdo -->
+      <div class="movie-poster">
+        <img 
+          [src]="'/images/banners/' + movie.im_path" 
+          [alt]="movie.nm_filme"
+          class="poster-image">
+      </div>
 
-    <img
-  [src]="'/images/banners/' + movie.im_path"
-  [alt]="movie.nm_filme"
-  style="
-    width: 100%;
-    max-height: 500px;
-    object-fit: cover;
-    border-radius: 12px;
-  ">
+      <!-- Info direita -->
+      <div class="movie-info">
+        <h1 class="movie-title">{{ movie.nm_filme }}</h1>
+        
+        <div class="movie-meta">
+          <span class="classificacao">{{ movie.classificacao }}</span>
+          <span class="duracao">{{ formatarDuracao(movie.duracao) }}</span>
+          <span class="genero">Ação, Ficção Científica</span>
+        </div>
 
-    <p>{{ movie.ds_filme }}</p>
+        <p class="movie-description" [class.expanded]="descricaoExpandida">
+          {{ movie.ds_filme }}
+        </p>
+
+        <button *ngIf="!descricaoExpandida" class="btn-continuar" (click)="toggleDescricao()">
+          Continuar lendo
+        </button>
+        <button *ngIf="descricaoExpandida" class="btn-continuar" (click)="toggleDescricao()">
+          Comprimir
+        </button>
+
+        <div class="movie-actions">
+          <button class="btn-action">
+            <span class="icon">🔖</span>
+            Lembre-me
+          </button>
+          <button class="btn-action">
+            <span class="icon">🔗</span>
+            Compartilhar
+          </button>
+        </div>
+      </div>
+    </div>
+
+    <!-- Abas de Sessões e Sobre -->
+    <div class="tabs-container">
+      <div class="tabs-header">
+        <button 
+          class="tab-button" 
+          [class.active]="activeTab === 'sessoes'"
+          (click)="setActiveTab('sessoes')">
+          Sessões
+        </button>
+        <button 
+          class="tab-button" 
+          [class.active]="activeTab === 'sobre'"
+          (click)="setActiveTab('sobre')">
+          Sobre o filme
+        </button>
+      </div>
+
+      <!-- Conteúdo de Sessões -->
+      <div *ngIf="activeTab === 'sessoes'" class="tab-content">
+        
+        <!-- Datas das sessões -->
+        <div class="sessoes-datas">
+          <button 
+            *ngFor="let data of datasSessoes; let i = index"
+            class="data-button"
+            [class.active]="i === 0"
+            (click)="goToSessionMap(data)">
+            {{ data }}
+          </button>
+        </div>
+
+        <!-- Filtros -->
+        <div class="filtros">
+          <button class="filtro-button">Laser</button>
+          <button class="filtro-button">Dublado</button>
+          <button class="filtro-button">Dolby Atmos</button>
+          <button class="filtro-button active">Normal</button>
+          <button class="filtro-button">Legendado</button>
+          <button class="filtro-button">Vip</button>
+        </div>
+
+        <!-- Placeholder para sessões -->
+        <div class="sessoes-list">
+          <p class="placeholder">Selecione uma data para ver as sessões disponíveis</p>
+        </div>
+      </div>
+
+      <!-- Conteúdo de Sobre -->
+      <div *ngIf="activeTab === 'sobre'" class="tab-content">
+        <div class="about-section">
+          <p>{{ movie.ds_filme }}</p>
+        </div>
+      </div>
+    </div>
+
+  </div>
 
 </div>
