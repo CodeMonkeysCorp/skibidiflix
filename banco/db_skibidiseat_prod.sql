@@ -63,7 +63,8 @@ ALTER TABLE usuario ADD COLUMN nm_email varchar(40);
 -- 25/05/2026 18:11 --
 
 ALTER TABLE filme ADD COLUMN nm_filme varchar(200);
-ALTER TABLE filme ADD COLUMN im_capa text;
+ALTER TABLE filme ADD COLUMN ds_filme text;
+ALTER TABLE filme ADD COLUMN im_path text;
 ALTER TABLE filme DROP COLUMN id_genero_filme;
 ALTER TABLE genero_filme DROP COLUMN nm_genero_filme;
 ALTER TABLE genero_filme ADD COLUMN id_filme INT REFERENCES filme(id_filme);
@@ -75,7 +76,7 @@ CREATE TABLE genero (
 
 ALTER TABLE genero_filme ADD COLUMN id_genero INT REFERENCES genero(id_genero);
 
-INSERT INTO filme(nm_filme,im_capa) VALUES 
+INSERT INTO filme(nm_filme,im_path) VALUES 
 ('Dragon Ball Z Super: Super Dragon Ball Ultra X Hyper Mega Super Hero Z Super Z','Goku.png'),
 ('Homem Aranha 12: De Volta a Fronteira do Além do Aranhaverso Inverso 3 Parte 5: Uma Nova Volta ao Lar','SpiderMan.png'),
 ('Batman: The Batman: Something in the Way','Batman.png'),
