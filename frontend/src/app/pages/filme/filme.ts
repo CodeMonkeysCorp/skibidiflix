@@ -1,9 +1,10 @@
 import { Component } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
-import { Observable } from 'rxjs';
 import { CommonModule } from '@angular/common';
+import { MovieService } from '../../services/movie.service';
 
 import { Movie } from '../../interfaces/movie';
+import { Observable } from 'rxjs/internal/Observable';
 
 @Component({
   selector: 'app-filme',
@@ -12,13 +13,18 @@ import { Movie } from '../../interfaces/movie';
   styleUrl: './filme.css',
 })
 export class Filme {
-  constructor(private route: ActivatedRoute) {}
+
+  movie$!: Observable<Movie>;
+  constructor(
+    private route: ActivatedRoute,
+    private movieService: MovieService
+  ) {}
 
   ngOnInit(): void {
 
     const id_filme = this.route.snapshot.queryParamMap.get('id');
 
-    console.log(id_filme);
+    this.movie$ = this.movieService.getMovieById(id_filme!);
 
   }
 }
