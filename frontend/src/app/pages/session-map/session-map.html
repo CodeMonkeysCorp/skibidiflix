@@ -1,1 +1,70 @@
-<p>session-map works!</p>
+<div class="session-page">
+	<div class="session-main">
+		<div class="session-top">
+			<div class="session-title">Selecione seus assentos</div>
+			<div class="session-sub">{{ movie?.nm_filme }} • {{ dataSessao }}</div>
+		</div>
+
+		<div class="session-body">
+			<div class="seat-map">
+				<div class="screen">T E L A</div>
+				<div class="seats-grid">
+					<div *ngFor="let s of seats" class="seat" [ngClass]="s.status"
+							 (click)="toggleSeat(s)">
+						<span class="seat-label">{{ s.num }}</span>
+					</div>
+				</div>
+				<div class="legend">
+					<span><i class="dot available"></i> Disponível</span>
+					<span><i class="dot selected"></i> Selecionado</span>
+					<span><i class="dot occupied"></i> Ocupado</span>
+				</div>
+			</div>
+
+			<div class="session-steps">
+				<div *ngIf="step === 'seats'" class="choose-tickets">
+					<p>Assentos selecionados: <strong>{{ selectedSeats.length }}</strong></p>
+					<button class="btn-primary" (click)="proceedToTickets()" [disabled]="selectedSeats.length===0">Escolher ingressos</button>
+				</div>
+
+				<div *ngIf="step === 'tickets'" class="tickets-panel">
+					<h3>Ingressos</h3>
+					<div class="ticket-row" *ngFor="let t of ticketTypes">
+						<div class="ticket-label">
+							<div class="title">{{ t.label }}</div>
+							<div class="price">R$ {{ t.price.toFixed(2) }}</div>
+						</div>
+						<div class="ticket-controls">
+							<button (click)="changeTicketCount(t.key, -1)">-</button>
+							<span class="count">{{ t.count }}</span>
+							<button (click)="changeTicketCount(t.key, 1)">+</button>
+						</div>
+					</div>
+
+					<div class="tickets-actions">
+						<button class="btn-secondary" (click)="backToSeats()">Voltar</button>
+						<button class="btn-primary" (click)="goToPayment()" [disabled]="ticketTypes.reduce((s, it)=>s+it.count,0) !== selectedSeats.length">Ir para pagamento</button>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+
+	<aside class="session-summary">
+		<div class="summary-card">
+			<div class="poster">
+				<img *ngIf="movie" [src]="'/images/banners/' + movie.im_path" [alt]="movie.nm_filme">
+			</div>
+			<div class="info">
+				<h4>{{ movie?.nm_filme }}</h4>
+				<div class="meta">SALA 3 - LASER • {{ dataSessao }} • 19:00</div>
+				<div class="seats-list">Assentos: <strong>{{ selectedSeats.join(', ') || '-' }}</strong></div>
+			</div>
+		</div>
+		<div class="summary-footer">
+			<div>Itens: <strong>{{ ticketTypes.reduce((s, it)=>s+it.count,0) }}</strong></div>
+			<div>Total: <strong>R$ {{ ticketTypes.reduce((s,it)=>s+it.count*it.price,0).toFixed(2) }}</strong></div>
+		</div>
+	</aside>
+
+</div>

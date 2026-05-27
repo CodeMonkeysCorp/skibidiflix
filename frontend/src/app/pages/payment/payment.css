@@ -1,0 +1,19 @@
+.payment-actions {
+  display: flex;
+  justify-content: center;
+  margin-top: 40px;
+}
+
+.btn-finalizar {
+  background-color: #713030;
+  color: #fff;
+  border: none;
+  border-radius: 8px;
+  padding: 14px 28px;
+  font-size: 1rem;
+  cursor: pointer;
+}
+
+.btn-finalizar:hover {
+  opacity: 0.9;
+}
