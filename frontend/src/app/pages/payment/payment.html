@@ -1,3 +1,32 @@
-<div class="payment-actions">
-  <button class="btn-finalizar" (click)="finalizarCompra()">Finalizar Compra</button>
+<div class="payment-container">
+  
+  <div *ngIf="carregando" class="loading-wrapper">
+    <p>Carregando os dados do seu pedido...</p>
+  </div>
+
+  <div *ngIf="!carregando && fatura" class="payment-card">
+    <h2>Resumo do Pedido</h2>
+    <hr>
+    
+    <div class="info-group">
+      <p><strong>Número da Fatura:</strong> #{{ fatura.idFatura }}</p>
+      <p><strong>Status do Pagamento:</strong> 
+        <span class="status-badge">{{ fatura.idSituacaoFatura === 1 ? 'Pendente' : 'Pago' }}</span>
+      </p>
+    </div>
+
+    <div class="price-group">
+      <h3>Total a pagar:</h3>
+      <p class="total-price">R$ {{ fatura.vlTotal.toFixed(2) }}</p>
+    </div>
+
+    <button class="btn-finalizar" (click)="finalizarCompra()">
+      Finalizar Compra
+    </button>
+  </div>
+
+  <div *ngIf="!carregando && !fatura" class="error-wrapper">
+    <p>Não foi possível recuperar os dados desta fatura. Tente novamente.</p>
+  </div>
+
 </div>

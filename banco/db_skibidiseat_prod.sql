@@ -137,3 +137,4 @@ ALTER TABLE ingresso ADD COLUMN id_tipo_ingresso INT REFERENCES tipo_ingresso(id
 INSERT INTO sala(id_sala) VALUES (1);
 
 INSERT INTO sessao(id_sala,id_filme,inicio,fim) VALUES (1,1,'2026-06-30 19:00:00-03', '2026-06-30 21:30:00-03');
+INSERT INTO assento (id_assento, fila, numero) VALUES (1, '1', '1') ON CONFLICT DO NOTHING;

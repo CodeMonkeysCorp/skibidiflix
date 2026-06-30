@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { CommonModule } from '@angular/common';
+import { HttpClient } from '@angular/common/http'; // 1. IMPORTAÇÃO ADICIONADA
 import { MovieService } from '../../services/movie.service';
 import { Movie } from '../../interfaces/movie';
 
@@ -17,13 +18,11 @@ export class SessionMap implements OnInit {
   id_filme: string | null = null;
   dataSessao: string | null = null;
 
-  // seats grid
   rows = 16;
   cols = 12;
   seats: Array<{ id: string; row: number; num: number; status: 'available' | 'occupied' | 'selected' }> = [];
   selectedSeats: string[] = [];
 
-  // tickets step
   step: 'seats' | 'tickets' = 'seats';
   ticketTypes = [
     { key: 'inteira', label: 'Inteira', price: 47.4, count: 0 },
@@ -33,7 +32,8 @@ export class SessionMap implements OnInit {
   constructor(
     private route: ActivatedRoute,
     private router: Router,
-    private movieService: MovieService
+    private movieService: MovieService,
+    private http: HttpClient
   ) {
     this.buildSeats();
   }
@@ -51,7 +51,7 @@ export class SessionMap implements OnInit {
     for (let r = this.rows; r >= 1; r--) {
       for (let c = 1; c <= this.cols; c++) {
         const id = `R${r}C${c}`;
-        const occupied = Math.random() < 0.08; // ~8% occupied
+        const occupied = Math.random() < 0.08;
         this.seats.push({ id, row: r, num: c, status: occupied ? 'occupied' : 'available' });
       }
     }
@@ -77,32 +77,39 @@ export class SessionMap implements OnInit {
     const t = this.ticketTypes.find(x => x.key === typeKey);
     if (!t) return;
     
-    // Altera a quantidade garantindo que nunca fique menor que 0
     t.count = Math.max(0, t.count + delta);
   }
 
   goToPayment() {
-    if (this.totalItems === 0) return;
     if (this.totalItems !== this.selectedSeats.length) {
       alert('A contagem de ingressos precisa ser igual à quantidade de assentos selecionados.');
       return;
     }
 
-    const seatsParam = this.selectedSeats.join(',');
-    const ticketsParam = JSON.stringify(this.ticketTypes.map(t => ({ key: t.key, count: t.count })));
-    this.router.navigate(['/payment'], { queryParams: {
+    const payloadPedido = {
       id_filme: this.id_filme,
       data: this.dataSessao,
-      seats: seatsParam,
-      tickets: ticketsParam
-    }});
+      assentos: this.selectedSeats,
+      ingressos: this.ticketTypes.map(t => ({ key: t.key, count: t.count }))
+    };
+
+    this.http.post<any>('http://localhost:8080/api/faturas', payloadPedido).subscribe({
+      next: (faturaCriada) => {
+        this.router.navigate(['/payment'], { 
+          queryParams: { id_fatura: faturaCriada.idFatura } 
+        });
+      },
+      error: (err) => {
+        console.error(err);
+        alert('Não foi possível processar o seu pedido.');
+      }
+    });
   }
 
   backToSeats() {
     this.step = 'seats';
   }
 
-  // Getters para limpar a lógica do HTML e evitar erros de escopo (t)
   get totalItems(): number {
     return this.ticketTypes.reduce((s, it) => s + it.count, 0);
   }
@@ -115,7 +122,6 @@ export class SessionMap implements OnInit {
     const totalRows = Math.ceil(this.seats.length / this.cols);
     const rowIndex = Math.floor(index / this.cols);
     
-    // Inverte a ordem para que a fileira mais próxima da tela mude adequadamente
     const invertedRowIndex = (totalRows - 1) - rowIndex;
     return String.fromCharCode(65 + invertedRowIndex);
   }
