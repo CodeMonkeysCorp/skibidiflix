@@ -1,8 +1,8 @@
 import { Component } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { RouterModule } from '@angular/router';
+import { ActivatedRoute, RouterModule } from '@angular/router';
 
-import { Observable } from 'rxjs';
+import { combineLatest, Observable } from 'rxjs';
 import { map } from 'rxjs/operators';
 
 import { MovieService } from '../../services/movie.service';
@@ -20,9 +20,25 @@ export class HomeComponent {
   movies$: Observable<Movie[]>;
   featuredMovie$: Observable<Movie>;
 
-  constructor(private movieService: MovieService) {
+  constructor(
+    private movieService: MovieService,
+    private route: ActivatedRoute
+  ) {
 
-    this.movies$ = this.movieService.getMovies();
+    this.movies$ = combineLatest([
+      this.movieService.getMovies(),
+      this.route.queryParamMap
+    ]).pipe(
+      map(([movies, params]) => {
+        const busca = (params.get('busca') || '').trim().toLowerCase();
+
+        if (!busca) {
+          return movies;
+        }
+
+        return movies.filter(movie => movie.nm_filme.toLowerCase().includes(busca));
+      })
+    );
 
     this.featuredMovie$ = this.movieService.getMovies().pipe(
 

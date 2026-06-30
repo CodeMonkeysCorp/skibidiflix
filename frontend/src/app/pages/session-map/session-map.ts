@@ -4,6 +4,15 @@ import { CommonModule } from '@angular/common';
 import { MovieService } from '../../services/movie.service';
 import { Movie } from '../../interfaces/movie';
 
+type SeatStatus = 'available' | 'occupied' | 'selected';
+
+interface Seat {
+  id: string;
+  row: number;
+  num: number;
+  status: SeatStatus;
+}
+
 @Component({
   selector: 'app-session-map',
   standalone: true,
@@ -12,18 +21,15 @@ import { Movie } from '../../interfaces/movie';
   styleUrl: './session-map.css',
 })
 export class SessionMap implements OnInit {
-
   movie: Movie | null = null;
   id_filme: string | null = null;
   dataSessao: string | null = null;
 
-  // seats grid
   rows = 16;
   cols = 12;
-  seats: Array<{ id: string; row: number; num: number; status: 'available' | 'occupied' | 'selected' }> = [];
+  seats: Seat[] = [];
   selectedSeats: string[] = [];
 
-  // tickets step
   step: 'seats' | 'tickets' = 'seats';
   ticketTypes = [
     { key: 'inteira', label: 'Inteira', price: 47.4, count: 0 },
@@ -34,13 +40,12 @@ export class SessionMap implements OnInit {
     private route: ActivatedRoute,
     private router: Router,
     private movieService: MovieService
-  ) {
-    this.buildSeats();
-  }
+  ) {}
 
   ngOnInit(): void {
     this.id_filme = this.route.snapshot.queryParamMap.get('id_filme') || this.route.snapshot.queryParamMap.get('id');
     this.dataSessao = this.route.snapshot.queryParamMap.get('data');
+    this.buildSeats();
 
     if (this.id_filme) {
       this.movieService.getMovieById(this.id_filme).subscribe(m => this.movie = m);
@@ -48,19 +53,27 @@ export class SessionMap implements OnInit {
   }
 
   buildSeats() {
-    for (let r = this.rows; r >= 1; r--) {
-      for (let c = 1; c <= this.cols; c++) {
-        const id = `R${r}C${c}`;
-        const occupied = Math.random() < 0.08; // ~8% occupied
-        this.seats.push({ id, row: r, num: c, status: occupied ? 'occupied' : 'available' });
+    const occupiedSeats = this.getOccupiedSeats();
+    this.seats = [];
+
+    for (let row = this.rows; row >= 1; row--) {
+      for (let column = 1; column <= this.cols; column++) {
+        const id = this.getSeatLabel(row, column);
+        this.seats.push({
+          id,
+          row,
+          num: column,
+          status: occupiedSeats.includes(id) ? 'occupied' : 'available'
+        });
       }
     }
   }
 
-  toggleSeat(seat: { id: string; status: string }) {
+  toggleSeat(seat: Seat) {
     if (seat.status === 'occupied') return;
+
     if (this.selectedSeats.includes(seat.id)) {
-      this.selectedSeats = this.selectedSeats.filter(s => s !== seat.id);
+      this.selectedSeats = this.selectedSeats.filter(selectedSeat => selectedSeat !== seat.id);
       seat.status = 'available';
     } else {
       this.selectedSeats.push(seat.id);
@@ -74,49 +87,87 @@ export class SessionMap implements OnInit {
   }
 
   changeTicketCount(typeKey: string, delta: number) {
-    const t = this.ticketTypes.find(x => x.key === typeKey);
-    if (!t) return;
-    
-    // Altera a quantidade garantindo que nunca fique menor que 0
-    t.count = Math.max(0, t.count + delta);
+    const ticket = this.ticketTypes.find(item => item.key === typeKey);
+    if (!ticket) return;
+
+    ticket.count = Math.max(0, ticket.count + delta);
   }
 
   goToPayment() {
     if (this.totalItems === 0) return;
+
     if (this.totalItems !== this.selectedSeats.length) {
-      alert('A contagem de ingressos precisa ser igual à quantidade de assentos selecionados.');
+      alert('A contagem de ingressos precisa ser igual a quantidade de assentos selecionados.');
       return;
     }
 
+    const selectedTickets = this.ticketTypes
+      .filter(ticket => ticket.count > 0)
+      .map(ticket => ({
+        key: ticket.key,
+        label: ticket.label,
+        price: ticket.price,
+        count: ticket.count
+      }));
     const seatsParam = this.selectedSeats.join(',');
-    const ticketsParam = JSON.stringify(this.ticketTypes.map(t => ({ key: t.key, count: t.count })));
-    this.router.navigate(['/payment'], { queryParams: {
-      id_filme: this.id_filme,
-      data: this.dataSessao,
-      seats: seatsParam,
-      tickets: ticketsParam
-    }});
+    const ticketsParam = JSON.stringify(selectedTickets);
+    const cartItem = {
+      id: Date.now(),
+      movieId: this.id_filme,
+      title: this.movie?.nm_filme || 'Filme',
+      session: `${this.dataSessao || 'Sessao'} - 19:00`,
+      room: 'Sala 3',
+      seats: this.selectedSeats,
+      ticketLines: selectedTickets,
+      price: this.totalPrice
+    };
+    const currentCart = JSON.parse(localStorage.getItem('cartItems') || '[]');
+    localStorage.setItem('cartItems', JSON.stringify([...currentCart, cartItem]));
+
+    this.router.navigate(['/payment'], {
+      queryParams: {
+        id_filme: this.id_filme,
+        data: this.dataSessao,
+        seats: seatsParam,
+        tickets: ticketsParam,
+        movie: this.movie?.nm_filme
+      }
+    });
   }
 
   backToSeats() {
     this.step = 'seats';
   }
 
-  // Getters para limpar a lógica do HTML e evitar erros de escopo (t)
   get totalItems(): number {
-    return this.ticketTypes.reduce((s, it) => s + it.count, 0);
+    return this.ticketTypes.reduce((sum, ticket) => sum + ticket.count, 0);
   }
 
   get totalPrice(): number {
-    return this.ticketTypes.reduce((s, it) => s + (it.count * it.price), 0);
+    return this.ticketTypes.reduce((sum, ticket) => sum + (ticket.count * ticket.price), 0);
   }
 
-  getRowLetter(index: number): string {
-    const totalRows = Math.ceil(this.seats.length / this.cols);
-    const rowIndex = Math.floor(index / this.cols);
-    
-    // Inverte a ordem para que a fileira mais próxima da tela mude adequadamente
-    const invertedRowIndex = (totalRows - 1) - rowIndex;
-    return String.fromCharCode(65 + invertedRowIndex);
+  getSeatGridColumn(column: number): number {
+    if (column <= 3) return column;
+    if (column <= 9) return column + 1;
+    return column + 2;
+  }
+
+  private getSeatLabel(row: number, column: number): string {
+    return `${String.fromCharCode(64 + row)}${column}`;
+  }
+
+  private getOccupiedSeats(): string[] {
+    try {
+      return JSON.parse(localStorage.getItem(this.getOccupiedSeatsStorageKey()) || '[]');
+    } catch {
+      return [];
+    }
+  }
+
+  private getOccupiedSeatsStorageKey(): string {
+    const movieId = this.id_filme || 'default';
+    const sessionDate = this.dataSessao || 'default';
+    return `occupiedSeats:${movieId}:${sessionDate}:sala-3:19-00`;
   }
 }

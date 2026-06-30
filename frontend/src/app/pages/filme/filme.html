@@ -1,4 +1,7 @@
 <div *ngIf="movie$ | async as movie" class="filme-container">
+  <div *ngIf="toastMessage" class="toast">
+    {{ toastMessage }}
+  </div>
   
   <!-- Banner de fundo desfocado -->
   <div class="banner-background" 
@@ -41,11 +44,11 @@
         </button>
 
         <div class="movie-actions">
-          <button class="btn-action">
+          <button class="btn-action" (click)="abrirReminderModal()">
             <span class="icon">🔖</span>
             Lembre-me
           </button>
-          <button class="btn-action">
+          <button class="btn-action" (click)="compartilhar()">
             <span class="icon">🔗</span>
             Compartilhar
           </button>
@@ -53,7 +56,31 @@
       </div>
     </div>
 
-    <!-- Abas de Sessões e Sobre -->
+    <div *ngIf="reminderModalAberto" class="modal-overlay" (click)="fecharReminderModal()">
+      <form class="reminder-modal" (click)="$event.stopPropagation()" (ngSubmit)="salvarLembrete(movie)">
+        <div class="modal-header">
+          <h2>Receber lembrete</h2>
+          <button type="button" class="modal-close" (click)="fecharReminderModal()">x</button>
+        </div>
+
+        <label class="modal-label" for="reminderDate">Data do lembrete</label>
+        <input
+          id="reminderDate"
+          class="modal-input"
+          type="date"
+          [(ngModel)]="reminderDate"
+          name="reminderDate"
+          required>
+
+        <p *ngIf="reminderMessage" class="modal-message">{{ reminderMessage }}</p>
+
+        <div class="modal-actions">
+          <button type="button" class="btn-secondary" (click)="fecharReminderModal()">Cancelar</button>
+          <button type="submit" class="btn-primary">Enviar lembrete</button>
+        </div>
+      </form>
+    </div>
+
     <div class="tabs-container">
       <div class="tabs-header">
         <button 
@@ -82,16 +109,6 @@
             (click)="goToSessionMap(data)">
             {{ data }}
           </button>
-        </div>
-
-        <!-- Filtros -->
-        <div class="filtros">
-          <button class="filtro-button">Laser</button>
-          <button class="filtro-button">Dublado</button>
-          <button class="filtro-button">Dolby Atmos</button>
-          <button class="filtro-button active">Normal</button>
-          <button class="filtro-button">Legendado</button>
-          <button class="filtro-button">Vip</button>
         </div>
 
         <!-- Placeholder para sessões -->

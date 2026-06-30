@@ -28,6 +28,7 @@ export class LoginComponent {
   .subscribe({
     next: (res) => {
       if (res.success) {
+        localStorage.setItem('loggedUserEmail', this.email);
         this.router.navigate(['/home']);
       } else {
         alert(res.message);

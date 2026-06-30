@@ -21,8 +21,9 @@
 
 <section class="catalog">
     <h2 class="catalog__title">EM ALTA</h2>
-    <div class="catalog__grid">
-        <div *ngFor="let movie of (movies$ | async);">
+    <div class="catalog__grid" *ngIf="movies$ | async as movies">
+        <p *ngIf="movies.length === 0" class="catalog__empty">Nenhum filme encontrado.</p>
+        <div *ngFor="let movie of movies;">
             <a [routerLink]="['/filme']" [queryParams]="{ id: movie.id_filme }">
                 <div class="poster__wrapper">
                     <img [src]="'/images/capas/' + movie.im_path" alt="{{ movie.nm_filme }}" class="catalog__poster">
@@ -34,8 +35,9 @@
 
 <section class="catalog">
     <h2 class="catalog__title">EM BREVE</h2>
-    <div class="catalog__grid">
-        <div *ngFor="let movie of (movies$ | async);">
+    <div class="catalog__grid" *ngIf="movies$ | async as movies">
+        <p *ngIf="movies.length === 0" class="catalog__empty">Nenhum filme encontrado.</p>
+        <div *ngFor="let movie of movies;">
             <a href="/filme">
                 <div class="poster__wrapper">
                     <img [src]="'/images/capas/' + movie.im_path" alt="{{ movie.nm_filme }}" class="catalog__poster">

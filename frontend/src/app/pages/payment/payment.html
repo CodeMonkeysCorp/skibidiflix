@@ -1,3 +1,75 @@
-<div class="payment-actions">
-  <button class="btn-finalizar" (click)="finalizarCompra()">Finalizar Compra</button>
-</div>
+<section class="payment-page">
+  <div class="payment-header">
+    <p class="eyebrow">Pagamento</p>
+    <h1>Finalize sua compra</h1>
+  </div>
+
+  <div class="payment-layout">
+    <form class="payment-form">
+      <h2>Forma de pagamento</h2>
+
+      <div class="method-grid">
+        <label class="method-card" [class.active]="paymentMethod === 'credit'">
+          <input type="radio" name="paymentMethod" value="credit" [(ngModel)]="paymentMethod">
+          <span>Cartao de credito</span>
+        </label>
+        <label class="method-card" [class.active]="paymentMethod === 'pix'">
+          <input type="radio" name="paymentMethod" value="pix" [(ngModel)]="paymentMethod">
+          <span>Pix</span>
+        </label>
+      </div>
+
+      <div class="form-grid" *ngIf="paymentMethod === 'credit'">
+        <label>
+          Nome no cartao
+          <input type="text" name="cardName" placeholder="Nome completo">
+        </label>
+        <label>
+          Numero do cartao
+          <input type="text" name="cardNumber" placeholder="0000 0000 0000 0000">
+        </label>
+        <label>
+          Validade
+          <input type="text" name="cardDate" placeholder="MM/AA">
+        </label>
+        <label>
+          CVV
+          <input type="text" name="cardCvv" placeholder="000">
+        </label>
+      </div>
+
+      <div class="pix-box" *ngIf="paymentMethod === 'pix'">
+        <strong>Pix copia e cola</strong>
+        <p>O codigo sera gerado depois da confirmacao do pedido.</p>
+      </div>
+    </form>
+
+    <aside class="payment-summary">
+      <h2>Resumo do pedido</h2>
+      <div class="summary-movie">
+        <strong>{{ movieTitle }}</strong>
+        <span>{{ sessionDate }}</span>
+      </div>
+      <div class="summary-row">
+        <span>Assentos</span>
+        <strong>{{ seats.join(', ') }}</strong>
+      </div>
+      <div class="ticket-summary" *ngFor="let ticket of ticketLines">
+        <div>
+          <span>{{ ticket.label }}</span>
+          <small>{{ ticket.count }} x R$ {{ ticket.price.toFixed(2) }}</small>
+        </div>
+        <strong>R$ {{ (ticket.count * ticket.price).toFixed(2) }}</strong>
+      </div>
+      <div class="summary-row">
+        <span>Quantidade</span>
+        <strong>{{ totalItems }}</strong>
+      </div>
+      <div class="summary-total">
+        <span>Total</span>
+        <strong>R$ {{ total.toFixed(2) }}</strong>
+      </div>
+      <button class="btn-finalizar" (click)="finalizarCompra()">Finalizar compra</button>
+    </aside>
+  </div>
+</section>

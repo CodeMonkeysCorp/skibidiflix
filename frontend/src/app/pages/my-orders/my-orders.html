@@ -1,1 +1,42 @@
-<p>my-orders works!</p>
+<section class="orders-page">
+  <div class="orders-header">
+    <p class="eyebrow">Meus pedidos</p>
+    <h1>Ingressos e compras recentes</h1>
+  </div>
+
+  <div class="orders-list">
+    <article class="order-card" *ngFor="let order of orders">
+      <div class="order-top">
+        <div>
+          <span class="order-code">{{ order.code }}</span>
+          <h2>{{ order.title }}</h2>
+        </div>
+        <span class="order-status">{{ order.status }}</span>
+      </div>
+
+      <div class="order-details">
+        <div>
+          <span>Sessao</span>
+          <strong>{{ order.date }}</strong>
+        </div>
+        <div>
+          <span>Sala</span>
+          <strong>{{ order.room }}</strong>
+        </div>
+        <div>
+          <span>Assentos</span>
+          <strong>{{ order.seats }}</strong>
+        </div>
+        <div>
+          <span>Pagamento</span>
+          <strong>{{ order.payment }}</strong>
+        </div>
+      </div>
+
+      <div class="order-footer">
+        <strong>Total R$ {{ order.total.toFixed(2) }}</strong>
+        <button type="button">Ver comprovante</button>
+      </div>
+    </article>
+  </div>
+</section>

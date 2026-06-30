@@ -3,14 +3,35 @@
     <img class="logo__icon" src="/images/logo.png" alt="SkibidiFlix logo">
     <a class="link" [routerLink]="['/home']"><h1 class="logo__title">SkibidiSeat</h1></a>
   </div>
-  <div class="header__search">
-    <p class="search__text">Buscar</p>
+
+  <form class="header__search" (ngSubmit)="buscarFilmes()">
+    <input
+      class="search__input"
+      type="search"
+      name="searchTerm"
+      placeholder="Buscar"
+      [(ngModel)]="searchTerm"
+      (ngModelChange)="atualizarSugestoes()"
+      (focus)="abrirSugestoes()"
+      (blur)="fecharSugestoes()"
+      autocomplete="off">
     <img class="search__icon" src="/images/search.png" alt="Lupa de busca">
-  </div>
-  <div class="header__location">
-    <p class="location__text">Localização</p>
-    <img class="location__icon" src="/images/pin.png" alt="Pin de localização">
-  </div>
+
+    <div *ngIf="isSearchOpen" class="search__dropdown">
+      <button
+        *ngFor="let movie of filteredMovies"
+        type="button"
+        class="search__option"
+        (mousedown)="irParaFilme(movie)">
+        {{ movie.nm_filme }}
+      </button>
+
+      <p *ngIf="filteredMovies.length === 0" class="search__empty">
+        Nenhum filme encontrado
+      </p>
+    </div>
+  </form>
+
   <nav class="header__nav">
     <a class="nav__item" [routerLink]="['/my-orders']">Meus Pedidos</a>
     <a class="nav__item" [routerLink]="['/cart']">Carrinho</a>

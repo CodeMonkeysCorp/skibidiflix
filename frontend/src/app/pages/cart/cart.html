@@ -1,3 +1,42 @@
-<div class="payment-actions">
-  <button class="btn-finalizar" (click)="finalizarPedido()">Finalizar Pedido</button>
-</div>
+<section class="cart-page">
+  <div class="cart-header">
+    <div>
+      <p class="eyebrow">Carrinho</p>
+      <h1>Revise seus ingressos</h1>
+    </div>
+    <span class="cart-count">{{ cartItems.length }} itens</span>
+  </div>
+
+  <div class="cart-layout">
+    <div class="cart-list">
+      <article class="cart-item" *ngFor="let item of cartItems">
+        <div class="item-info">
+          <h2>{{ item.title }}</h2>
+          <p>{{ item.session }} · {{ item.room }}</p>
+          <span>Assentos {{ item.seats.join(', ') }}</span>
+        </div>
+        <div class="item-price">
+          <span>{{ item.tickets }}</span>
+          <strong>R$ {{ item.price.toFixed(2) }}</strong>
+        </div>
+      </article>
+    </div>
+
+    <aside class="cart-summary">
+      <h2>Resumo</h2>
+      <div class="summary-row">
+        <span>Ingressos</span>
+        <strong>R$ {{ total.toFixed(2) }}</strong>
+      </div>
+      <div class="summary-row">
+        <span>Taxas</span>
+        <strong>R$ 0,00</strong>
+      </div>
+      <div class="summary-total">
+        <span>Total</span>
+        <strong>R$ {{ total.toFixed(2) }}</strong>
+      </div>
+      <button class="btn-finalizar" (click)="finalizarPedido()">Finalizar pedido</button>
+    </aside>
+  </div>
+</section>
