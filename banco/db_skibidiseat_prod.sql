@@ -104,3 +104,31 @@ WHERE id_filme = 4;
 UPDATE filme
 SET ds_filme = 'Após uma ameaça misteriosa colocar toda a família em risco, Dom Toretto é forçado a reunir sua família para salvar a família antes que a família seja destruída por inimigos que não entendem o verdadeiro poder da família. Em uma corrida emocionante através de vários países convenientemente fechados para gravação, explosões impossíveis e carros desafiando todas as leis conhecidas da física, Dom descobrirá que, no fim das contas, nada é mais importante do que a família. Especialmente quando a família precisa proteger a família usando o poder da própria família.'
 WHERE id_filme = 5;
+
+
+CREATE TABLE situacao_fatura (
+	id_situacao_fatura SERIAL PRIMARY KEY,
+	ds_situacao text NOT NULL
+);
+
+INSERT INTO situacao_fatura(ds_situacao) VALUES ('Pendente'),('Cancelado'),('Pago');
+
+CREATE TABLE fatura (
+	id_fatura SERIAL PRIMARY KEY,
+	id_situacao_fatura INT REFERENCES situacao_fatura(id_situacao_fatura) DEFAULT 1,
+	id_usuario INT REFERENCES usuario(id_usuario),
+	dt_criacao TIMESTAMPTZ DEFAULT CURRENT_TIMESTAMP,
+	dt_expiracao TIMESTAMPTZ DEFAULT (CURRENT_TIMESTAMP + INTERVAL '1 hour'),
+	dt_pagamento TIMESTAMPTZ DEFAULT NULL,
+	vl_total NUMERIC DEFAULT 0
+)
+
+CREATE TABLE tipo_ingresso (
+	id_tipo_ingresso SERIAL PRIMARY KEY,
+	nm_tipo text NOT NULL
+);
+
+INSERT INTO tipo_ingresso(nm_tipo) VALUES ('Inteira'),('Meia');
+
+ALTER TABLE ingresso ADD COLUMN id_fatura INT REFERENCES fatura(id_fatura);
+ALTER TABLE ingresso ADD COLUMN id_tipo_ingresso INT REFERENCES tipo_ingresso(id_tipo_ingresso);
