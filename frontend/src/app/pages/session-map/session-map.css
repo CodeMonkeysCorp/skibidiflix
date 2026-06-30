@@ -43,8 +43,41 @@
 .legend .dot.occupied{background:#713030}
 
 .session-steps{width:360px;padding:12px}
-.choose-tickets{background:var(--card);padding:16px;border-radius:8px}
-.btn-primary{background:var(--primary);color:#fff;border:none;padding:10px 16px;border-radius:6px;cursor:pointer}
+.choose-tickets {
+    background: var(--card);
+    padding: 24px 16px;
+    border-radius: 8px;
+    text-align: center;
+}
+
+.btn-primary {
+    background: var(--primary);
+    color: #fff;
+    border: none;
+    padding: 14px 24px;
+    border-radius: 6px;
+    cursor: pointer;
+    font-size: 1rem;
+    font-weight: 600;
+    width: 100%; /* Faz o botão ocupar toda a largura do painel */
+    text-transform: uppercase; /* Deixa as letras maiúsculas */
+    letter-spacing: 0.5px;
+    transition: all 0.3s ease; /* Animação suave */
+}
+
+.btn-primary:hover:not(:disabled) {
+    background: var(--accent);
+    transform: translateY(-2px); /* Dá uma leve "subida" no botão */
+    box-shadow: 0 4px 12px rgba(198, 155, 74, 0.3); /* Brilho dourado/primário */
+}
+
+.btn-primary:disabled {
+    background: rgba(255, 255, 255, 0.05);
+    color: rgba(255, 255, 255, 0.2);
+    cursor: not-allowed;
+    transform: none;
+    box-shadow: none;
+}
 .btn-secondary{background:transparent;border:1px solid rgba(255,255,255,0.06);color:#fff;padding:8px 12px;border-radius:6px}
 
 .tickets-panel{background:var(--card);padding:16px;border-radius:8px}

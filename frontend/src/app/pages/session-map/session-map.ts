@@ -108,4 +108,11 @@ export class SessionMap {
     this.step = 'seats';
   }
 
+  getRowLetter(index: number): string {
+    const seatsPerRow = 12;
+    const rowIndex = Math.floor(index / seatsPerRow);
+    
+    return String.fromCharCode(65 + rowIndex);
+  }
+
 }

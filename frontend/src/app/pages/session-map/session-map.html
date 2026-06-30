@@ -9,9 +9,8 @@
 			<div class="seat-map">
 				<div class="screen">T E L A</div>
 				<div class="seats-grid">
-					<div *ngFor="let s of seats" class="seat" [ngClass]="s.status"
-							 (click)="toggleSeat(s)">
-						<span class="seat-label">{{ s.num }}</span>
+					<div *ngFor="let s of seats; let i = index" class="seat" [ngClass]="s.status" (click)="toggleSeat(s)">
+						<span class="seat-label">{{ getRowLetter(i) }}{{ s.num }}</span>
 					</div>
 				</div>
 				<div class="legend">
