@@ -9,7 +9,7 @@ import { Movie } from '../interfaces/movie';
 })
 export class MovieService {
 
-  private apiUrl = 'http://localhost:8080/movies';
+  private apiUrl = 'http://localhost:8080/api/movies';
 
   constructor(private http: HttpClient) {}
 
@@ -18,6 +18,6 @@ export class MovieService {
   }
 
   getMovieById(id: string): Observable<Movie> {
-    return this.http.get<Movie>(`${this.apiUrl}/${id}`);
+    return this.http.get<Movie>(`http://localhost:8080/api/movies/${id}`);
   }
 }

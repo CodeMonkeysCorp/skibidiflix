@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { CommonModule } from '@angular/common';
+import { HttpClient } from '@angular/common/http'; // 1. IMPORTAÇÃO ADICIONADA
 import { MovieService } from '../../services/movie.service';
 import { Movie } from '../../interfaces/movie';
 
@@ -39,8 +40,11 @@ export class SessionMap implements OnInit {
   constructor(
     private route: ActivatedRoute,
     private router: Router,
-    private movieService: MovieService
-  ) {}
+    private movieService: MovieService,
+    private http: HttpClient
+  ) {
+    this.buildSeats();
+  }
 
   ngOnInit(): void {
     this.id_filme = this.route.snapshot.queryParamMap.get('id_filme') || this.route.snapshot.queryParamMap.get('id');
@@ -53,18 +57,11 @@ export class SessionMap implements OnInit {
   }
 
   buildSeats() {
-    const occupiedSeats = this.getOccupiedSeats();
-    this.seats = [];
-
-    for (let row = this.rows; row >= 1; row--) {
-      for (let column = 1; column <= this.cols; column++) {
-        const id = this.getSeatLabel(row, column);
-        this.seats.push({
-          id,
-          row,
-          num: column,
-          status: occupiedSeats.includes(id) ? 'occupied' : 'available'
-        });
+    for (let r = this.rows; r >= 1; r--) {
+      for (let c = 1; c <= this.cols; c++) {
+        const id = `R${r}C${c}`;
+        const occupied = Math.random() < 0.08;
+        this.seats.push({ id, row: r, num: c, status: occupied ? 'occupied' : 'available' });
       }
     }
   }
@@ -87,50 +84,34 @@ export class SessionMap implements OnInit {
   }
 
   changeTicketCount(typeKey: string, delta: number) {
-    const ticket = this.ticketTypes.find(item => item.key === typeKey);
-    if (!ticket) return;
-
-    ticket.count = Math.max(0, ticket.count + delta);
+    const t = this.ticketTypes.find(x => x.key === typeKey);
+    if (!t) return;
+    
+    t.count = Math.max(0, t.count + delta);
   }
 
   goToPayment() {
-    if (this.totalItems === 0) return;
-
     if (this.totalItems !== this.selectedSeats.length) {
       alert('A contagem de ingressos precisa ser igual a quantidade de assentos selecionados.');
       return;
     }
 
-    const selectedTickets = this.ticketTypes
-      .filter(ticket => ticket.count > 0)
-      .map(ticket => ({
-        key: ticket.key,
-        label: ticket.label,
-        price: ticket.price,
-        count: ticket.count
-      }));
-    const seatsParam = this.selectedSeats.join(',');
-    const ticketsParam = JSON.stringify(selectedTickets);
-    const cartItem = {
-      id: Date.now(),
-      movieId: this.id_filme,
-      title: this.movie?.nm_filme || 'Filme',
-      session: `${this.dataSessao || 'Sessao'} - 19:00`,
-      room: 'Sala 3',
-      seats: this.selectedSeats,
-      ticketLines: selectedTickets,
-      price: this.totalPrice
+    const payloadPedido = {
+      id_filme: this.id_filme,
+      data: this.dataSessao,
+      assentos: this.selectedSeats,
+      ingressos: this.ticketTypes.map(t => ({ key: t.key, count: t.count }))
     };
-    const currentCart = JSON.parse(localStorage.getItem('cartItems') || '[]');
-    localStorage.setItem('cartItems', JSON.stringify([...currentCart, cartItem]));
 
-    this.router.navigate(['/payment'], {
-      queryParams: {
-        id_filme: this.id_filme,
-        data: this.dataSessao,
-        seats: seatsParam,
-        tickets: ticketsParam,
-        movie: this.movie?.nm_filme
+    this.http.post<any>('http://localhost:8080/api/faturas', payloadPedido).subscribe({
+      next: (faturaCriada) => {
+        this.router.navigate(['/payment'], { 
+          queryParams: { id_fatura: faturaCriada.idFatura } 
+        });
+      },
+      error: (err) => {
+        console.error(err);
+        alert('Não foi possível processar o seu pedido.');
       }
     });
   }
@@ -147,10 +128,12 @@ export class SessionMap implements OnInit {
     return this.ticketTypes.reduce((sum, ticket) => sum + (ticket.count * ticket.price), 0);
   }
 
-  getSeatGridColumn(column: number): number {
-    if (column <= 3) return column;
-    if (column <= 9) return column + 1;
-    return column + 2;
+  getRowLetter(index: number): string {
+    const totalRows = Math.ceil(this.seats.length / this.cols);
+    const rowIndex = Math.floor(index / this.cols);
+    
+    const invertedRowIndex = (totalRows - 1) - rowIndex;
+    return String.fromCharCode(65 + invertedRowIndex);
   }
 
   private getSeatLabel(row: number, column: number): string {

@@ -14,8 +14,8 @@ import com.skibidiflix.backend.model.Movie;
 import com.skibidiflix.backend.repository.MovieRepository;
 
 @RestController
-@RequestMapping("/movies")
-@CrossOrigin(origins = "http://localhost:4200")
+@RequestMapping("/api/movies")
+@CrossOrigin(origins = "*")
 public class MovieController {
     @Autowired
     private MovieRepository movieRepository;

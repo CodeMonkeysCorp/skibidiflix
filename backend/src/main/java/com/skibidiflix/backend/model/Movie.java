@@ -18,7 +18,7 @@ public class Movie {
     @Column(name = "nm_filme") 
     private String nm_filme;
 
-    @Column(name = "ds_filme") 
+    @Column(name = "ds_filme", columnDefinition = "TEXT") 
     private String ds_filme;
 
     @Column(name = "im_path") 
