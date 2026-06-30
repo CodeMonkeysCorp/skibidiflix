@@ -50,6 +50,12 @@
     text-align: center;
 }
 
+.ticket-controls button:disabled {
+    opacity: 0.3;
+    cursor: not-allowed;
+    background: transparent;
+}
+
 .btn-primary {
     background: var(--primary);
     color: #fff;

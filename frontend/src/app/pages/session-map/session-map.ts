@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { CommonModule } from '@angular/common';
 import { MovieService } from '../../services/movie.service';
@@ -6,11 +6,12 @@ import { Movie } from '../../interfaces/movie';
 
 @Component({
   selector: 'app-session-map',
+  standalone: true,
   imports: [CommonModule],
   templateUrl: './session-map.html',
   styleUrl: './session-map.css',
 })
-export class SessionMap {
+export class SessionMap implements OnInit {
 
   movie: Movie | null = null;
   id_filme: string | null = null;
@@ -19,7 +20,7 @@ export class SessionMap {
   // seats grid
   rows = 16;
   cols = 12;
-  seats: Array<{ id: string; row: number; num: number; status: 'available' | 'occupied' | 'selected' }>= [];
+  seats: Array<{ id: string; row: number; num: number; status: 'available' | 'occupied' | 'selected' }> = [];
   selectedSeats: string[] = [];
 
   // tickets step
@@ -50,7 +51,6 @@ export class SessionMap {
     for (let r = this.rows; r >= 1; r--) {
       for (let c = 1; c <= this.cols; c++) {
         const id = `R${r}C${c}`;
-        // mark some seats as occupied for demo
         const occupied = Math.random() < 0.08; // ~8% occupied
         this.seats.push({ id, row: r, num: c, status: occupied ? 'occupied' : 'available' });
       }
@@ -76,26 +76,20 @@ export class SessionMap {
   changeTicketCount(typeKey: string, delta: number) {
     const t = this.ticketTypes.find(x => x.key === typeKey);
     if (!t) return;
+    
+    // Altera a quantidade garantindo que nunca fique menor que 0
     t.count = Math.max(0, t.count + delta);
-    // optional: auto-advance when counts match seats
-    const totalTickets = this.ticketTypes.reduce((s, it) => s + it.count, 0);
-    if (totalTickets === this.selectedSeats.length && totalTickets > 0) {
-      // counts match selected seats -> proceed automatically
-      this.goToPayment();
-    }
   }
 
   goToPayment() {
-    const totalTickets = this.ticketTypes.reduce((s, it) => s + it.count, 0);
-    if (totalTickets === 0) return; // nothing selected
-    if (totalTickets !== this.selectedSeats.length) {
-      // prevent navigation if counts don't match seats
+    if (this.totalItems === 0) return;
+    if (this.totalItems !== this.selectedSeats.length) {
       alert('A contagem de ingressos precisa ser igual à quantidade de assentos selecionados.');
       return;
     }
 
     const seatsParam = this.selectedSeats.join(',');
-    const ticketsParam = JSON.stringify(this.ticketTypes.map(t => ({ key: t.key, count: t.count })) );
+    const ticketsParam = JSON.stringify(this.ticketTypes.map(t => ({ key: t.key, count: t.count })));
     this.router.navigate(['/payment'], { queryParams: {
       id_filme: this.id_filme,
       data: this.dataSessao,
@@ -108,11 +102,21 @@ export class SessionMap {
     this.step = 'seats';
   }
 
-  getRowLetter(index: number): string {
-    const seatsPerRow = 12;
-    const rowIndex = Math.floor(index / seatsPerRow);
-    
-    return String.fromCharCode(65 + rowIndex);
+  // Getters para limpar a lógica do HTML e evitar erros de escopo (t)
+  get totalItems(): number {
+    return this.ticketTypes.reduce((s, it) => s + it.count, 0);
   }
 
+  get totalPrice(): number {
+    return this.ticketTypes.reduce((s, it) => s + (it.count * it.price), 0);
+  }
+
+  getRowLetter(index: number): string {
+    const totalRows = Math.ceil(this.seats.length / this.cols);
+    const rowIndex = Math.floor(index / this.cols);
+    
+    // Inverte a ordem para que a fileira mais próxima da tela mude adequadamente
+    const invertedRowIndex = (totalRows - 1) - rowIndex;
+    return String.fromCharCode(65 + invertedRowIndex);
+  }
 }
