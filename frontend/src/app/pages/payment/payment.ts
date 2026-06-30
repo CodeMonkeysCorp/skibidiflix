@@ -1,5 +1,5 @@
-import { Component, OnInit } from '@angular/core';
-import { ActivatedRoute, Router } from '@angular/router'; // Adicionei o Router aqui para te ajudar no redirecionamento final
+import { Component, OnInit, ChangeDetectorRef } from '@angular/core'; // 1. Adicione o ChangeDetectorRef aqui
+import { ActivatedRoute, Router } from '@angular/router';
 import { HttpClient } from '@angular/common/http';
 import { CommonModule } from '@angular/common';
 
@@ -13,38 +13,50 @@ import { CommonModule } from '@angular/common';
 export class Payment implements OnInit {
   idFatura: string | null = null;
   fatura: any = null;
-  carregando: boolean = false;
+  carregando: boolean = true;
 
   constructor(
     private route: ActivatedRoute,
     private http: HttpClient,
+    private cdr: ChangeDetectorRef,
     private router: Router
   ) {}
 
   ngOnInit(): void {
-    this.idFatura = this.route.snapshot.queryParamMap.get('id_fatura');
-    console.log("ID da Fatura capturado na URL:", this.idFatura);
+    this.route.queryParamMap.subscribe({
+      next: (params) => {
+        this.carregando = true;
+        this.fatura = null;
+        this.idFatura = params.get('id_fatura');
 
-    if (this.idFatura) {
-      this.http.get<any>(`http://localhost:8080/api/faturas/${this.idFatura}`).subscribe({
-        next: (dados) => {
-          console.log("DADOS REAIS QUE CHEGARAM DO JAVA:", dados)
-          this.fatura = dados;
+        if (this.idFatura) {
+          this.http.get<any>(`http://localhost:8080/api/faturas/${this.idFatura}`).subscribe({
+            next: (dados) => {
+              console.log("Novos dados recebidos do Java:", dados);
+              
+              this.fatura = dados;
+              this.carregando = false;
+
+              // 3. O TRUQUE MÁGICO: Força o Angular a atualizar o HTML imediatamente!
+              this.cdr.detectChanges(); 
+            },
+            error: (err) => {
+              console.error("Erro ao buscar nova fatura:", err);
+              this.fatura = null;
+              this.carregando = false;
+              this.cdr.detectChanges(); // Força o HTML a mostrar a tela de erro
+            }
+          });
+        } else {
           this.carregando = false;
-        },
-        error: (err) => {
-          console.error("Erro ao buscar fatura:", err);
-          this.carregando = false;
+          this.cdr.detectChanges();
         }
-      });
-    } else {
-      this.carregando = false;
-    }
+      }
+    });
   }
 
   finalizarCompra() {
-    alert('Compra finalizada com sucesso! Divirta-se no Skibidiseat!');
-    
-    this.router.navigate(['/']); 
+    alert('Compra finalizada com sucesso!');
+    this.router.navigate(['/my-orders']);
   }
 }

@@ -1,32 +1,56 @@
-<div class="payment-container">
-  
-  <div *ngIf="carregando" class="loading-wrapper">
-    <p>Carregando os dados do seu pedido...</p>
-  </div>
+<div class="session-page">
+    <div class="session-main">
+        <div class="session-top">
+            <div class="session-title">Finalize seu Pagamento</div>
+            <div class="session-sub">Fatura Gerada • Escolha a forma de pagamento abaixo</div>
+        </div>
 
-  <div *ngIf="!carregando && fatura" class="payment-card">
-    <h2>Resumo do Pedido</h2>
-    <hr>
-    
-    <div class="info-group">
-      <p><strong>Número da Fatura:</strong> #{{ fatura.idFatura }}</p>
-      <p><strong>Status do Pagamento:</strong> 
-        <span class="status-badge">{{ fatura.idSituacaoFatura === 1 ? 'Pendente' : 'Pago' }}</span>
-      </p>
+        <div class="session-body">
+            <div *ngIf="carregando && !fatura" class="loading-wrapper">
+                <div class="spinner"></div>
+                <p>Processando dados do pedido...</p>
+            </div>
+
+            <div *ngIf="fatura" class="payment-panel">
+                <div class="payment-method-selector">
+                    <h3>Forma de Pagamento</h3>
+                    
+                    <div class="method-option selected">
+                        <div class="method-icon"></div>
+                        <div class="method-details">
+                            <div class="title">PIX / Cartão de Crédito</div>
+                            <div class="sub">Aprovação instantânea no sistema</div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="payment-instructions">
+                    <p>Ao clicar no botão abaixo, sua compra será dada como concluída e seus ingressos virtuais estarão disponíveis para o acesso à sala.</p>
+                </div>
+
+                <div class="payment-actions">
+                    <button class="btn-primary" (click)="finalizarCompra()">
+                        Confirmar e Pagar Agora
+                    </button>
+                </div>
+            </div>
+        </div>
     </div>
 
-    <div class="price-group">
-      <h3>Total a pagar:</h3>
-      <p class="total-price">R$ {{ fatura.vlTotal.toFixed(2) }}</p>
-    </div>
-
-    <button class="btn-finalizar" (click)="finalizarCompra()">
-      Finalizar Compra
-    </button>
-  </div>
-
-  <div *ngIf="!carregando && !fatura" class="error-wrapper">
-    <p>Não foi possível recuperar os dados desta fatura. Tente novamente.</p>
-  </div>
-
+    <aside class="session-summary" *ngIf="fatura">
+        <div class="summary-card">
+            <div class="info">
+                <h4>Resumo do Pedido</h4>
+                <div class="meta">Skibidiflix Cinemas</div>
+                <div class="fatura-code">Fatura: <strong>#{{ fatura.idFatura }}</strong></div>
+                <div class="status-text">Status: 
+                    <span class="status-badge">{{ fatura.idSituacaoFatura === 1 ? 'Pendente' : 'Pago' }}</span>
+                </div>
+            </div>
+        </div>
+        <div class="summary-footer">
+            <div>Situação: <strong>Aguardando</strong></div>
+            <div class="total-highlight">Total: <strong>R$ {{ fatura?.vlTotal?.toFixed(2) }}</strong></div>
+        </div>
+    </aside>
 </div>
