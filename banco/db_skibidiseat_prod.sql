@@ -105,6 +105,7 @@ UPDATE filme
 SET ds_filme = 'Após uma ameaça misteriosa colocar toda a família em risco, Dom Toretto é forçado a reunir sua família para salvar a família antes que a família seja destruída por inimigos que não entendem o verdadeiro poder da família. Em uma corrida emocionante através de vários países convenientemente fechados para gravação, explosões impossíveis e carros desafiando todas as leis conhecidas da física, Dom descobrirá que, no fim das contas, nada é mais importante do que a família. Especialmente quando a família precisa proteger a família usando o poder da própria família.'
 WHERE id_filme = 5;
 
+-- 30/06/2026 18:51 (mentira)
 
 CREATE TABLE situacao_fatura (
 	id_situacao_fatura SERIAL PRIMARY KEY,
@@ -132,3 +133,7 @@ INSERT INTO tipo_ingresso(nm_tipo) VALUES ('Inteira'),('Meia');
 
 ALTER TABLE ingresso ADD COLUMN id_fatura INT REFERENCES fatura(id_fatura);
 ALTER TABLE ingresso ADD COLUMN id_tipo_ingresso INT REFERENCES tipo_ingresso(id_tipo_ingresso);
+
+INSERT INTO sala(id_sala) VALUES (1);
+
+INSERT INTO sessao(id_sala,id_filme,inicio,fim) VALUES (1,1,'2026-06-30 19:00:00-03', '2026-06-30 21:30:00-03');
